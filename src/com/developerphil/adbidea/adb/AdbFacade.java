@@ -47,6 +47,10 @@ public class AdbFacade {
         executeOnDevice(project, new ClearDataAndRestartCommand());
     }
 
+    public static void listShowPreferences(Project project) {
+        executeOnDevice(project, new ListSharedPreferencesCommand());
+    }
+
     private static void executeOnDevice(final Project project, final Command runnable) {
         final DeviceResult result = getDevice(project);
         if (result != null) {
@@ -65,17 +69,18 @@ public class AdbFacade {
 
     private static DeviceResult getDevice(Project project) {
         List<AndroidFacet> facets = getApplicationFacets(project);
-        if (!facets.isEmpty()) {
+        //if (!facets.isEmpty()) {
             AndroidFacet facet;
-            if (facets.size() > 1) {
-                facet = ModuleChooserDialogHelper.showDialogForFacets(project, facets);
-                if (facet == null) {
-                    return null;
-                }
-            } else {
-                facet = facets.get(0);
-            }
-            String packageName = AdbUtil.computePackageName(facet);
+//            if (facets.size() > 1) {
+//                facet = ModuleChooserDialogHelper.showDialogForFacets(project, facets);
+//                if (facet == null) {
+//                    error("ERROR FACET");
+//                    return null;
+//                }
+//            } else {
+//                facet = facets.get(0);
+//            }
+//            String packageName = AdbUtil.computePackageName(facet);
 
             AndroidDebugBridge bridge = AndroidSdkUtils.getDebugBridge(project);
             if (bridge == null) {
@@ -83,24 +88,29 @@ public class AdbFacade {
                 return null;
             }
 
-            if (bridge.isConnected() && bridge.hasInitialDeviceList()) {
-                IDevice[] devices = bridge.getDevices();
-                if (devices.length == 1) {
-                    return new DeviceResult(devices, facet, packageName);
-                } else if (devices.length > 1) {
-                    return askUserForDevice(facet, packageName);
-                } else {
-                    return null;
-                }
-            }
-        }
+//            if (bridge.isConnected() && bridge.hasInitialDeviceList()) {
+//                IDevice[] devices = bridge.getDevices();
+//                if (devices.length == 1) {
+//                    error("AAAA");
+//                    return new DeviceResult(devices, facet, packageName);
+//                } else if (devices.length > 1) {
+//                    error("BBBB");
+//                    return askUserForDevice(facet, packageName);
+//                } else {
+//                    error("CCCC");
+//                    return null;
+//                }
+//            }
+       // }
+        error("DDDD");
         return null;
     }
 
     private static List<AndroidFacet> getApplicationFacets(Project project) {
 
         List<AndroidFacet> facets = Lists.newArrayList();
-        for (AndroidFacet facet : AndroidUtils.getApplicationFacets(project)) {
+        List<AndroidFacet> applicationFacets = AndroidUtils.getApplicationFacets(project);
+        for (AndroidFacet facet : applicationFacets) {
             if (!isTestProject(facet)) {
                 facets.add(facet);
             }
@@ -130,6 +140,8 @@ public class AdbFacade {
 
         return new DeviceResult(selectedDevices, facet, packageName);
     }
+
+
 
     private static final class DeviceResult {
         private final IDevice[] devices;

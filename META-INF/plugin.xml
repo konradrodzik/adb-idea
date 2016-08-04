@@ -1,7 +1,7 @@
 <idea-plugin version="3" url="https://github.com/pbreault/adb-idea">
     <id>com.developerphil.adbidea</id>
     <name>ADB Idea</name>
-    <version>1.1.3</version>
+    <version>1.1.6</version>
     <vendor url="http://www.developerphil.com">Philippe Breault</vendor>
 
     <description><![CDATA[
@@ -51,7 +51,7 @@
     <depends>org.jetbrains.android</depends>
 
     <actions>
-        <group id="AdbIdea" text="_ADB Idea" description="ADB Idea" popup="true">
+        <group id="AdbIdea" text="_ADB Idea aaaa" description="ADB Idea" popup="true">
             <action id="com.developerphil.adbidea.action.UninstallAction"
                     class="com.developerphil.adbidea.action.UninstallAction"
                     text="ADB Uninstall App"
@@ -82,6 +82,11 @@
                     class="com.developerphil.adbidea.action.ClearDataAndRestartAction"
                     text="ADB Clear App Data and Restart"
                     description="Clears the private storage of the app and restarts it">
+            </action>
+            <action id="com.developerphil.adbidea.action.SharedPreferencesAction"
+                    class="com.developerphil.adbidea.action.SharedPreferencesAction"
+                    text="ADB List Shared Preferences"
+                    description="List Shared Preferences">
             </action>
             <add-to-group group-id="AndroidToolsGroup" anchor="first"/>
         </group>
